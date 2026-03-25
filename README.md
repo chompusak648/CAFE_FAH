@@ -14,3 +14,7 @@ Cafe chatbot project with:
 - Database: Supabase
 
 See `DEPLOY.md` for the deployment steps.
+
+## Supabase Quick Start
+
+Run `infra/supabase_setup.sql` in the Supabase SQL Editor to create tables, enable pgvector, and seed starter cafe data.

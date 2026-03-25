@@ -11,13 +11,23 @@
 
 1. Create a new Supabase project.
 2. Open SQL Editor.
-3. Run the SQL in `infra/init_pgvector.sql`.
-4. Copy the connection string and keep `sslmode=require`.
+3. Run the SQL in `infra/supabase_setup.sql`.
+4. This creates the schema and inserts starter cafe data.
+5. Copy the connection string and keep `sslmode=require`.
 
 Example:
 
 ```env
 DATABASE_URL=postgresql+psycopg2://postgres:password@db.example.supabase.co:5432/postgres?sslmode=require
+```
+
+Quick verification queries:
+
+```sql
+select count(*) from recipes;
+select count(*) from ingredients;
+select count(*) from recipe_ingredients;
+select name, sugar_g from products order by sugar_g desc;
 ```
 
 ## 2. Render Backend
@@ -59,3 +69,4 @@ VITE_API_URL=https://your-render-service.onrender.com
 
 - Render filesystem is ephemeral, so uploaded raw files are temporary. The chunked data is stored in Supabase after processing.
 - Keep the real `.env` and API keys private. Use `.env.example` as the template.
+- If you want the fastest Supabase setup, use `infra/supabase_setup.sql`. The older `infra/init_pgvector.sql` is still useful for local Docker initialization.

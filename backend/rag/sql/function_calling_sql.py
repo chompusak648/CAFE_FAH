@@ -9,6 +9,7 @@ Database Schema:
 1. recipes (recipe_id, name, description, price)
 2. ingredients (ingredient_id, name, unit, sugar_per_unit)
 3. recipe_ingredients (recipe_id, ingredient_id, amount)
+4. products (product_id, name, category, price, sugar_g, brew_count)
 
 Relationships:
 - recipe_ingredients.recipe_id = recipes.recipe_id

@@ -15,14 +15,14 @@ CREATE TABLE IF NOT EXISTS doc_chunks (
 -- Note: Amount and Unit are columns within these tables as per standard normalization
 CREATE TABLE IF NOT EXISTS recipes (
     recipe_id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL UNIQUE,
     description TEXT,
     price DECIMAL(10, 2)
 );
 
 CREATE TABLE IF NOT EXISTS ingredients (
     ingredient_id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL UNIQUE,
     unit VARCHAR(50),  -- This is the 'Unit' mentioned
     sugar_per_unit DECIMAL(10, 4) DEFAULT 0.0
 );
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS recipe_ingredients (
 
 CREATE TABLE IF NOT EXISTS products (
     product_id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL UNIQUE,
     category VARCHAR(100),
     price DECIMAL(10, 2),
     sugar_g DECIMAL(10, 2),

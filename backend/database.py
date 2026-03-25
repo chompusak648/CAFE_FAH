@@ -23,7 +23,7 @@ class Recipe(Base):
     __tablename__ = "recipes"
     
     recipe_id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(255), nullable=False)
+    name = Column(String(255), nullable=False, unique=True)
     description = Column(Text)
     price = Column(Numeric(10, 2))
     
@@ -33,7 +33,7 @@ class Ingredient(Base):
     __tablename__ = "ingredients"
     
     ingredient_id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(255), nullable=False)
+    name = Column(String(255), nullable=False, unique=True)
     unit = Column(String(50)) # e.g., 'g', 'ml'
     sugar_per_unit = Column(Numeric(10, 4), default=0.0)
     
@@ -53,7 +53,7 @@ class Product(Base):
     __tablename__ = "products"
     
     product_id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(255), nullable=False)
+    name = Column(String(255), nullable=False, unique=True)
     category = Column(String(100))
     price = Column(Numeric(10, 2))
     sugar_g = Column(Numeric(10, 2))
