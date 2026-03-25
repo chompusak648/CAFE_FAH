@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.pyc
+*.log
+*.err
+backend/venv/
+frontend/node_modules/
+frontend/dist/
+uploads/

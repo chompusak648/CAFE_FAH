@@ -1,0 +1,64 @@
+services:
+  rag-postgres:
+    image: pgvector/pgvector:pg16
+    container_name: rag-postgres
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: ragdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./infra/init_pgvector.sql:/docker-entrypoint-initdb.d/init_pgvector.sql
+    networks:
+      - chatbot-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chatbot-backend
+    ports:
+      - "8001:8000"
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://app:app@rag-postgres:5432/ragdb
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - EMBED_MODEL=${EMBED_MODEL}
+      - CHAT_MODEL=${CHAT_MODEL}
+      - EMBED_DIM=${EMBED_DIM}
+    depends_on:
+      - rag-postgres
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - chatbot-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: chatbot-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8001
+    networks:
+      - chatbot-network
+
+  adminer:
+    image: adminer
+    container_name: chatbot-adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - chatbot-network
+
+volumes:
+  pgdata:
+
+
+networks:
+  chatbot-network:
+    driver: bridge
